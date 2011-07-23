@@ -8,3 +8,4 @@ build.d.deps
 /Samples/MSDN/*
 build-d-*
 resource.d
+*.rar

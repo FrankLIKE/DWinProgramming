@@ -32,26 +32,21 @@
       If you don't know how to set up environment variables, see this guide: 
         http://www.computerhope.com/issues/ch000549.htm
     
-    - Build the samples by issuing this call from the command line:
-        rdmd build.d
-        
-    Warning: DMD 2.054 has a faulty RDMD which doesn't work on Windows7 systems.
-    As a workaround use these calls:
-        dmd build.d
-        build.exe
+    - Build the samples by calling:
+        .\build.exe
         
     - To build only a single example, CD to its directory and run:
-        rdmd ..\..\..\build.d "%cd%"
+        ..\..\..\build.exe "%cd%"
         
     - To enable the console and add debug symbols, append debug to the call:
-        rdmd ..\..\..\build.d "%cd%" debug
+        ..\..\..\build.exe "%cd%" debug
         
     Note: The quotes are important
     Note: The script will likely emit some warnings, but you don't have to worry about those.
         
     Other options are:
     - Clean .obj, .map, .exe files:
-        rdmd build.d clean
+        build.exe clean
         
     Note: If you can't compile the samples with a newer version of DMD, file a bug report or 
     send me an e-mail (see the contact section), and I'll fix the samples as soon as possible.        

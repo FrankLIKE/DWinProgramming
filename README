@@ -308,6 +308,9 @@ Extra:
     BackBuffer - Uses a simple back-buffer double-buffering mechanism to draw on the screen
                  without flicker.
 
+    Cartesian  - Demonstrates how to use a custom coordinate system via GDI. By flipping 
+                 the Y axis we get the standard cartesian coordinate system.
+                 More info found here: http://www.functionx.com/visualc/gdi/gdicoord.htm
 
 == Optional Tools ==
     - HTOD: http://www.digitalmars.com/d/2.0/htod.html    

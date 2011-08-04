@@ -7,5 +7,4 @@ build.d.deps
 /Samples/Extra2/*
 /Samples/MSDN/*
 build-d-*
-resource.d
 *.rar

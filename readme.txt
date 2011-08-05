@@ -526,3 +526,4 @@ Extra:
           GetStockObject(WHITE_BRUSH);' instead of 'wndclass.hbrBackground = cast(HBRUSH) 
           GetStockObject(BLACK_BRUSH);'
         - I could have forgotten to uncomment "import resource;" in the code.
+

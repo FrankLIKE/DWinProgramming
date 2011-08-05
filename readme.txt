@@ -10,7 +10,7 @@
     
     This project has been created by Andrej Mitrovic.
     
-    Project Homepage: https://github.com/AndrejMitrovic/Windows_Programming_in_D
+    Project Homepage: https://github.com/AndrejMitrovic/DWinProgramming
 
 == Latest Update  ==
     View the git log for the changesets. 

@@ -206,7 +206,13 @@ bool PrintMyPage(HWND hwnd)
     yPage = GetDeviceCaps(hdcPrn, VERTRES);
 
     EnableWindow(hwnd, FALSE);
-    SetAbortProc(hdcPrn, &AbortProc);
+    
+    // @BUG@ WindowsAPI callbacks are not defined properly:
+    //     alias BOOL function(HDC, int) ABORTPROC;
+    //
+    // should be:
+    //     alias extern(Windows) BOOL function(HDC, int) ABORTPROC;
+    SetAbortProc(hdcPrn, cast(BOOL function(HDC, int))&AbortProc);
 
     if (StartDoc(hdcPrn, &di) > 0)
     {

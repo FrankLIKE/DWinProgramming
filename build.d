@@ -99,8 +99,11 @@ string[] getFilesByExt(string dir, string ext, string ext2 = null)
     foreach (string file; dirEntries(dir, SpanMode.shallow))
     {
         if (file.isfile && (file.getExt == ext || file.getExt == ext2))
+        {
             result ~= file;
+        }
     }
+    
     return result;
 }
 
@@ -120,11 +123,11 @@ string[] getProjectDirs(string root)
     // direntries is not a range in 2.053
     foreach (string dir; dirEntries(root, SpanMode.shallow))
     {
-        if (dir.isdir && dir.basename != "MSDN" && dir.basename != "Extra2")
+        if (dir.isdir && dir.baseName != "MSDN" && dir.baseName != "Extra2")
         {
             foreach (string subdir; dirEntries(dir, SpanMode.shallow))
             {
-                if (subdir.isdir && subdir.basename != "todo")
+                if (subdir.isdir && subdir.baseName != "todo")
                     result ~= subdir;
             }
         }
@@ -134,7 +137,7 @@ string[] getProjectDirs(string root)
 
 bool buildProject(string dir)
 {
-    string appName = rel2abs(dir).basename;
+    string appName = rel2abs(dir).baseName;
     string exeName = rel2abs(dir) ~ r"\" ~ appName ~ ".exe";
     string LIBPATH = r".";
     string FLAGS = Debug ? 
@@ -156,7 +159,7 @@ bool buildProject(string dir)
         system("rc /i" ~ `"` ~ RCINCLUDES[0] ~ `"` ~ 
                " /i" ~ `"` ~ RCINCLUDES[1] ~ `"` ~
                " /i" ~ `"` ~ RCINCLUDES[2] ~ `"` ~ 
-               " " ~ resources[0].getName ~ ".rc"
+               " " ~ resources[0].stripExtension ~ ".rc"
                " > nul");
     }
 
@@ -169,7 +172,7 @@ bool buildProject(string dir)
     
     if (sources.length)
     {
-        if (!silent) writeln("Building " ~ exeName);
+        if (!silent) writeln("\nBuilding " ~ exeName);
         auto res = system(" dmd -of" ~ exeName ~
                           " -od" ~ rel2abs(dir) ~ r"\" ~ 
                           " -I" ~ LIBPATH ~ r"\" ~ 
@@ -201,9 +204,9 @@ void buildProjectDirs(string[] dirs, bool cleanOnly = false)
         }
         
         // @BUG@ Using chdir in parallel builds wreaks havoc on other threads.
-        if (dir.basename == "EdrTest" ||
-            dir.basename == "ShowBit" ||
-            dir.basename == "StrProg")
+        if (dir.baseName == "EdrTest" ||
+            dir.baseName == "ShowBit" ||
+            dir.baseName == "StrProg")
         {
             serialBuilds ~= dir;
         }
@@ -217,7 +220,9 @@ void buildProjectDirs(string[] dirs, bool cleanOnly = false)
             else
             {
                 if (!buildProject(dir))
-                    failedBuilds ~= rel2abs(dir) ~ r"\" ~ dir.basename ~ ".exe";
+                {
+                    failedBuilds ~= rel2abs(dir) ~ r"\" ~ dir.baseName ~ ".exe";
+                }
             }
         }
     }
@@ -238,7 +243,7 @@ void buildProjectDirs(string[] dirs, bool cleanOnly = false)
         {
             auto res = system("build.bat " ~ (Debug ? "-g" : "-L-Subsystem:Windows"));
             if (res == 1 || res == -1)
-                failedBuilds ~= rel2abs(curdir) ~ r"\.exe";
+                failedBuilds ~= rel2abs(curdir) ~ r"\.exe";          
         }
     }
     
@@ -255,7 +260,7 @@ int main(string[] args)
         else if (arg == "debug") Debug = true;
         else
         {
-            if (arg.getDrive)
+            if (arg.driveName)
             {
                 if (arg.exists && arg.isdir)
                 {
@@ -277,7 +282,7 @@ int main(string[] args)
     }
     else
     {
-        dirs = getProjectDirs(rel2abs(curdir ~ r"\Samples"));  
+        dirs = getProjectDirs(rel2abs(curdir ~ r"\Samples"));
     }
     
     if (!cleanOnly)

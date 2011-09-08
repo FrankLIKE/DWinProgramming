@@ -128,7 +128,13 @@ BOOL PopPrntPrintFile(HINSTANCE hInst, HWND hwnd, HWND hwndEdit, PTSTR szTitleNa
     hDlgPrint = CreateDialog(hInst, "PrintDlgBox", hwnd, &PrintDlgProc);
 
     SetDlgItemText(hDlgPrint, IDC_FILENAME, szTitleName);
-    SetAbortProc(pd.hDC, &AbortProc);
+    
+    // @BUG@ WindowsAPI callbacks are not defined properly:
+    //     alias BOOL function(HDC, int) ABORTPROC;
+    //
+    // should be:
+    //     alias extern(Windows) BOOL function(HDC, int) ABORTPROC;    
+    SetAbortProc(pd.hDC, cast(BOOL function(HDC, int))&AbortProc);
 
     // Start the document
     GetWindowText(hwnd, szJobName.ptr, szJobName.sizeof);

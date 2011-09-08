@@ -155,7 +155,12 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             // Enumerate the existing metafile
 
-            EnumEnhMetaFile(hdcEMF, hemfOld, &EnhMetaFileProc, NULL,
+            // @BUG@ WindowsAPI callbacks are not defined properly:
+            //     alias int function(HANDLE, HANDLETABLE*, const(ENHMETARECORD)*, int, int)
+            //
+            // should be:
+            //     alias extern(Windows) int function(HANDLE hdc, HANDLETABLE* pHandleTable, ENHMETARECORD* pEmfRecord, int iHandles, int pData)            
+            EnumEnhMetaFile(hdcEMF, hemfOld, cast(int function(HANDLE, HANDLETABLE*, const(ENHMETARECORD)*, int, int))&EnhMetaFileProc, NULL,
                             cast(RECT*)&emh.rclBounds);
 
             // Clean up

@@ -140,7 +140,12 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             hemf = GetEnhMetaFile("emf3.emf");
 
-            EnumEnhMetaFile(hdc, hemf, &EnhMetaFileProc, NULL, &rect);
+            // @BUG@ WindowsAPI callbacks are not defined properly:
+            //     alias int function(HANDLE, HANDLETABLE*, const(ENHMETARECORD)*, int, int)
+            //
+            // should be:
+            //     alias extern(Windows) int function(HANDLE hdc, HANDLETABLE* pHandleTable, ENHMETARECORD* pEmfRecord, int iHandles, int pData)            
+            EnumEnhMetaFile(hdc, hemf, cast(int function(HANDLE, HANDLETABLE*, const(ENHMETARECORD)*, int, int))&EnhMetaFileProc, NULL, &rect);
             DeleteEnhMetaFile(hemf);
             EndPaint(hwnd, &ps);
             return 0;

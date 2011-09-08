@@ -242,7 +242,12 @@ bool PrintMyPage(HWND hwnd)
     bUserAbort = FALSE;
     hDlgPrint  = CreateDialog(hinst, "PrintDlgBox", hwnd, &PrintDlgProc);
 
-    SetAbortProc(hdcPrn, &AbortProc);
+    // @BUG@ WindowsAPI callbacks are not defined properly:
+    //     alias BOOL function(HDC, int) ABORTPROC;
+    //
+    // should be:
+    //     alias extern(Windows) BOOL function(HDC, int) ABORTPROC;    
+    SetAbortProc(hdcPrn, cast(BOOL function(HDC, int))&AbortProc);
 
     if (StartDoc(hdcPrn, &di) > 0)
     {

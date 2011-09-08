@@ -101,7 +101,6 @@ void DrawBoxOutline(HWND hwnd, POINT ptBeg, POINT ptEnd)
     ReleaseDC(hwnd, hdc);
 }
 
-
 extern(Windows)
 LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -137,7 +136,6 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 ptEnd.x = cast(short)LOWORD(lParam);   // lParam will be negative pair of X and Y short,
                 ptEnd.y = cast(short)HIWORD(lParam);   // however LOWORD and HIWORD return ushort. Cast is needed to
                                                        // preserve sign bit.
-
                 DrawBoxOutline(hwnd, ptBeg, ptEnd);
             }
 

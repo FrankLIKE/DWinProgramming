@@ -164,7 +164,8 @@ void WriteStrings(string[] strings, CBPARAM pcbp)
 
 wstring fromWStringz(const wchar* s)
 {
-    if (s is null) return null;
+    if (s is null) 
+        return null;
 
     wchar* ptr;
     for (ptr = cast(wchar*)s; *ptr; ++ptr) {}

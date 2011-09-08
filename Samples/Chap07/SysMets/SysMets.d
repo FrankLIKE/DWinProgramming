@@ -111,7 +111,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int i
     int result;
     void exceptionHandler(Throwable e) { throw e; }
 
-
     try
     {
         Runtime.initialize(&exceptionHandler);
@@ -208,6 +207,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         // Fall through for mouse wheel information
         case WM_SETTINGCHANGE:
+        {
             SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &ulScrollLines, 0);
 
             // ulScrollLines usually equals 3 or 0 (for no scrolling)
@@ -218,6 +218,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 iDeltaPerLine = 0;
 
             return 0;
+        }
 
         case WM_SIZE:
             cxClient = LOWORD(lParam);
@@ -239,7 +240,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             return 0;
 
         case WM_VSCROLL:
-
+        {
             // Get all the vertical scroll bar information
             si.fMask = SIF_ALL;
             GetScrollInfo(hwnd, SB_VERT, &si);
@@ -295,9 +296,10 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
+        }
 
         case WM_HSCROLL:
-
+        {
             // Get all the vertical scroll bar information
             si.fMask = SIF_ALL;
 
@@ -344,9 +346,10 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
+        }
 
         case WM_KEYDOWN:
-
+        {
             switch (wParam)
             {
                 case VK_HOME:
@@ -385,9 +388,10 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
+        }
 
         case WM_MOUSEWHEEL:
-
+        {
             if (iDeltaPerLine == 0)  // no scroll
                 break;
 
@@ -406,7 +410,8 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             return 0;
-
+        }
+        
         case WM_PAINT:
         {
             hdc = BeginPaint(hwnd, &ps);

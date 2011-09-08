@@ -8,6 +8,11 @@ module DibFile;
 import core.memory;
 import std.utf;
 
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
+
 import win32.windef;
 import win32.winuser;
 import win32.wingdi;

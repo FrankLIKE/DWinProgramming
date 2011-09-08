@@ -8,7 +8,12 @@ module WhatSize;
 import core.runtime;
 import core.thread;
 import std.string;
-import std.utf : count, toUTF16z;
+import std.utf : count, toUTFz;
+
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
 import std.math;
 
 pragma(lib, "gdi32.lib");

@@ -172,7 +172,7 @@ bool buildProject(string dir)
     
     if (sources.length)
     {
-        if (!silent) writeln("\nBuilding " ~ exeName);
+        if (!silent) writeln("Building " ~ exeName);
         auto res = system(" dmd -of" ~ exeName ~
                           " -od" ~ rel2abs(dir) ~ r"\" ~ 
                           " -I" ~ LIBPATH ~ r"\" ~ 

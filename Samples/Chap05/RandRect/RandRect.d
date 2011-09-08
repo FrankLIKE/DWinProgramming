@@ -9,6 +9,11 @@ import core.runtime;
 import core.thread;
 import std.string;
 import std.utf;
+
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
 import std.math;
 import std.random;
 

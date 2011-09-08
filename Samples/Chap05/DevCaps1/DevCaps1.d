@@ -10,7 +10,12 @@ import std.algorithm : min, max;
 import std.conv;
 import std.math;
 import std.string;
-import std.utf : count, toUTF16z;
+import std.utf : count, toUTFz;
+
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
 
 pragma(lib, "gdi32.lib");
 pragma(lib, "winmm.lib");

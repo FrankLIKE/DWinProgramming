@@ -15,6 +15,11 @@ import std.string;
 import std.stdio;
 import std.utf;
 
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
+
 pragma(lib, "gdi32.lib");
 pragma(lib, "comdlg32.lib");
 

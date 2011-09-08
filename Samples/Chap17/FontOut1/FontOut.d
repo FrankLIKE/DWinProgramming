@@ -13,7 +13,12 @@ import std.math;
 import std.random;
 import std.range;
 import std.string;
-import std.utf : count, toUTF16z;
+import std.utf : count, toUTFz;
+
+auto toUTF16z(S)(S s)
+{
+    return toUTFz!(const(wchar)*)(s);
+}
 
 pragma(lib, "gdi32.lib");
 pragma(lib, "comdlg32.lib");

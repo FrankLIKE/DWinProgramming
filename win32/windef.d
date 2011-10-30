@@ -112,6 +112,8 @@ struct POINT
 {
     LONG x;
     LONG y;
+    alias x e1;
+    alias y e2;
 }
 alias POINT POINTL;
 alias POINT*PPOINT, LPPOINT, PPOINTL, LPPOINTL;

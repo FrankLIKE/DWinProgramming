@@ -194,7 +194,8 @@ void buildProjectDirs(string[] dirs, bool cleanOnly = false)
     
     if (cleanOnly) writeln("Cleaning..");
     
-    foreach (dir; parallel(dirs, 1))
+    //~ foreach (dir; parallel(dirs, 1))
+    foreach (dir; dirs)
     {
         if (!cleanOnly && kbhit())
         {

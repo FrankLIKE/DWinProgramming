@@ -17,7 +17,7 @@
     Git log info: http://book.git-scm.com/3_reviewing_history_-_git_log.html
 
 == Building Requirements ==
-    - Windows XP 32bit or Windows 7 32bit. The current DMD compiler (2.055) cannot compile 64bit
+    - Windows XP 32bit or Windows 7 32bit. The current DMD compiler (2.056) cannot compile 64bit
       object code. However you should be able to run 32bit executables on a 64bit system.
 
     - DMD v2.055+ compiler or newer. Download DMD from: http://www.digitalmars.com/d/download.html

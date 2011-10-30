@@ -1,3 +1,4 @@
+build.exe
 win32.txt
 todo.txt
 todo2.txt
@@ -8,3 +9,5 @@ build.d.deps
 /Samples/MSDN/*
 build-d-*
 *.rar
+*.obj
+*.dat

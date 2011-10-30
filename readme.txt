@@ -404,6 +404,7 @@ Extra:
 
 == Links ==
     D2 Programming Language Homepage: http://d-programming-language.org/
+    Code samples of using Win32 API and Cairo: https://github.com/AndrejMitrovic/cairoDSamples
     How to make extensionless files open in your editor in WinXP: http://perishablepress.com/press/2006/08/08/associate-extensionless-files-with-notepad/
         Note: Also, make sure you hit the 'Open with' button and select your editor.
     Programming Windows Homepage: http://www.charlespetzold.com/pw5/

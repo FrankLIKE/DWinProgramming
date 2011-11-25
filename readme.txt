@@ -32,6 +32,9 @@
       If you don't know how to set up environment variables, see this guide: 
         http://www.computerhope.com/issues/ch000549.htm
     
+    - Build the build script:
+        dmd build.d
+    
     - Build the samples by calling:
         .\build.exe
         
@@ -40,6 +43,9 @@
         
     - To enable the console and add debug symbols, append debug to the call:
         ..\..\..\build.exe "%cd%" debug
+        
+    - Alternatively you can use xfBuild (replace <exename> and <filename.d> accordingly)
+        xfbuild +o<exename> <filename.d> -I..\..\..\..\WindowsAPI -version=Unicode -version=WIN32_WINNT_ONLY -version=WindowsNTonly -version=Windows2000 -version=Windows2003 -version=WindowsXP -version=WindowsVista -L-Subsystem:Windows:4
         
     Note: The quotes are important
     Note: The script will likely emit some warnings, but you don't have to worry about those.
@@ -417,6 +423,7 @@ Extra:
     MSDN list of Windows APIs: http://msdn.microsoft.com/en-us/library/ff818516.aspx
     Windows API bindings: http://dsource.org/projects/bindings/wiki/WindowsApi
     RDMD: http://www.digitalmars.com/d/2.0/rdmd.html
+    xfBuild: https://github.com/AndrejMitrovic/xfbuild
     RDMD@github: https://github.com/D-Programming-Language/tools
     HTOD: http://www.digitalmars.com/d/2.0/htod.html
     DDBG D Debugger: http://ddbg.mainia.de/doc.html

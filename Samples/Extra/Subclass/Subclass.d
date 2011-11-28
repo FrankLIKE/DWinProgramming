@@ -52,7 +52,7 @@ import std.traits;
 // one. This technique can be used with win9x and later operating systems.
 // =============================================================================
 
-auto toUTF16z(S) (S s)
+auto toUTF16z(S)(S s)
 {
     return toUTFz!(const(wchar)*)(s);
 }

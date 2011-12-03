@@ -135,9 +135,8 @@ void makeProcess(string procName, ProcessInfo procInfo)
 
 /*
  * Note: If you want to print out in parallel you'll have to wrap the entire
- * writefln section in a synchronized block. Just make a stub class, a 
- * __gshared instance of the class initialized from main, and do:
- * synchronized(instance) { writefln(); while (1) { writefln("...");  } writeln(); }
+ * writefln section in a synchronized block. E.g.:
+ * synchronized { writefln(); while (1) { writefln("...");  } writeln(); }
  */
 void readProcessPipe(size_t index, ProcessInfo procInfo)
 {
@@ -179,7 +178,7 @@ __gshared ProcessInfo[50] processInfos;
 /*
  * Pick between spawn or taskPool.parallel. To make them 
  * both work I've had to make processInfos global and add 
- * forwarding functions for spawn() which load a process
+ * forwarding functions for spawn(), which load a process
  * info by index.
  */
 version = StdConcurrency;
@@ -187,7 +186,7 @@ version = StdConcurrency;
 
 void main(string[] args)
 {
-    // workaround: build.d tries to build stub if it's present
+    // workaround: build.d tries to build stub.d if it's present
     system(`echo module stub; void main() { } > stub.d`);  
     scope(exit) { std.file.remove("stub.d"); }
     

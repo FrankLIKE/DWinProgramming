@@ -1,7 +1,6 @@
-module ThemedWakeUp;
+module ThemedSimpleWakeUp;
 
-// Same as Samples\Chap22\WakeUp, except the "Turn Off" button has 
-// the current visual styled applied to it.
+// Same as ThemedWakeUp, except uses a precompiled manifest file.
 
 import core.memory;
 import core.runtime;
@@ -28,8 +27,6 @@ import win32.winbase;
 import win32.commdlg;
 import win32.mmsystem;
 import win32.commctrl;
-
-import VisualStyles;
 
 string appName     = "WakeUp";
 string description = "WakeUp";
@@ -58,7 +55,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int i
 
 int myWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)
 {
-    enableVisualStyles();
     hinst = hInstance;
     HACCEL hAccel;
     HWND hwnd;

@@ -40,12 +40,12 @@ static this()
 
 private extern (Windows)
 {
-alias UINT function(LPCWSTR lpPathName, LPCWSTR lpPrefixString, UINT uUnique,
-                    LPWSTR lpTempFileName) GetTempFileNameWProc;
-alias DWORD function(DWORD nBufferLength, LPWSTR lpBuffer) GetTempPathWProc;
-alias HANDLE function(PACTCTXW pActCtx) CreateActCtxWProc;
-alias BOOL function(HANDLE hActCtx, ULONG_PTR* lpCookie) ActivateActCtxProc;
-alias BOOL function(LPINITCOMMONCONTROLSEX lpInitCtrls) InitCommonControlsExProc;
+    alias UINT function(LPCWSTR lpPathName, LPCWSTR lpPrefixString, UINT uUnique,
+                        LPWSTR lpTempFileName) GetTempFileNameWProc;
+    alias DWORD function(DWORD nBufferLength, LPWSTR lpBuffer) GetTempPathWProc;
+    alias HANDLE function(PACTCTXW pActCtx) CreateActCtxWProc;
+    alias BOOL function(HANDLE hActCtx, ULONG_PTR* lpCookie) ActivateActCtxProc;
+    alias BOOL function(LPINITCOMMONCONTROLSEX lpInitCtrls) InitCommonControlsExProc;
 }
 
 void _initCommonControls(DWORD dwControls)
@@ -53,7 +53,6 @@ void _initCommonControls(DWORD dwControls)
     version (SUPPORTS_COMMON_CONTROLS_EX)
     {
         pragma(msg, "DFL: extended common controls supported at compile time");
-
         alias InitCommonControlsEx initProc;
     }
     else

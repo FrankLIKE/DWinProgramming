@@ -156,11 +156,18 @@ bool buildProject(string dir)
     
     if (resources.length)
     {
-        system("rc /i" ~ `"` ~ RCINCLUDES[0] ~ `"` ~ 
-               " /i" ~ `"` ~ RCINCLUDES[1] ~ `"` ~
-               " /i" ~ `"` ~ RCINCLUDES[2] ~ `"` ~ 
-               " " ~ resources[0].stripExtension ~ ".rc"
-               " > nul");
+        auto res_cmd = "rc /i" ~ `"` ~ RCINCLUDES[0] ~ `"` ~ 
+                       " /i" ~ `"` ~ RCINCLUDES[1] ~ `"` ~
+                       " /i" ~ `"` ~ RCINCLUDES[2] ~ `"` ~ 
+                       " " ~ resources[0].stripExtension ~ ".rc"
+                       " > nul";
+        
+        auto res = system(res_cmd);
+        if (res == -1 || res == 1)
+        {
+            writefln("Compiling resource file failed. Command was: %s", res_cmd);
+            return false;
+        }        
     }
 
     // @BUG@ htod can't output via -of or -od, causes multithreading issues
@@ -181,7 +188,9 @@ bool buildProject(string dir)
                           " " ~ sources.flatten);
         
         if (res == -1 || res == 1)
+        {
             return false;
+        }
     }
     
     return true;

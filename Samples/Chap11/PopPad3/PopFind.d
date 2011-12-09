@@ -22,6 +22,7 @@ auto toUTF16z(S)(S s)
 pragma(lib, "gdi32.lib");
 pragma(lib, "comdlg32.lib");
 pragma(lib, "winmm.lib");
+pragma(lib, "advapi32.lib");
 import win32.windef;
 import win32.winuser;
 import win32.wingdi;
@@ -139,5 +140,5 @@ BOOL PopFindReplaceText(HWND hwndEdit, int* piSearchOffset, LPFINDREPLACE pfr)
 
 BOOL PopFindValidFind()
 {
-    return *szFindText;
+    return *(szFindText.ptr);
 }

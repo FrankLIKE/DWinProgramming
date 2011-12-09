@@ -20,7 +20,7 @@ void main()
 {
     foreach (string entry; dirEntries(rel2abs(curdir), SpanMode.depth))
     {
-        if (entry.isfile && entry.getExt == "d")
+        if (entry.isFile && entry.getExt == "d")
         {
             process(entry);
         }

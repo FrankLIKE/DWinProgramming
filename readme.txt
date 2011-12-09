@@ -20,7 +20,7 @@
     - Windows XP 32bit or Windows 7 32bit. The current DMD compiler (2.056) cannot compile 64bit
       object code. However you should be able to run 32bit executables on a 64bit system.
 
-    - DMD v2.055+ compiler or newer. Download DMD from: http://www.digitalmars.com/d/download.html
+    - DMD v2.056+ compiler or newer. Download DMD from: http://www.digitalmars.com/d/download.html
       Usage instructions (nice bookmark): http://d-programming-language.org/dmd-windows.html
       
     Note: Only NT systems are suppported.

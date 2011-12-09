@@ -58,7 +58,7 @@ void checkTools()
     if (res == -1 || res == 1)
     {
         skipHeaderCompile = true;
-        writeln("Warning: The builder will use existing D header files and won't generate them dynaimcally. You need to download and install HTOD. Please see the Links section in the Readme file.");
+        writeln("Warning: HTOD missing, won't recompile .h headers.");
     }
     
     try { std.file.remove("test.h"); } catch {};
@@ -98,7 +98,7 @@ string[] getFilesByExt(string dir, string ext, string ext2 = null)
     string[] result;
     foreach (string file; dirEntries(dir, SpanMode.shallow))
     {
-        if (file.isfile && (file.getExt == ext || file.getExt == ext2))
+        if (file.isFile && (file.getExt == ext || file.getExt == ext2))
         {
             result ~= file;
         }
@@ -123,11 +123,11 @@ string[] getProjectDirs(string root)
     // direntries is not a range in 2.053
     foreach (string dir; dirEntries(root, SpanMode.shallow))
     {
-        if (dir.isdir && dir.baseName != "MSDN" && dir.baseName != "Extra2")
+        if (dir.isDir && dir.baseName != "MSDN" && dir.baseName != "Extra2")
         {
             foreach (string subdir; dirEntries(dir, SpanMode.shallow))
             {
-                if (subdir.isdir && subdir.baseName != "todo")
+                if (subdir.isDir && subdir.baseName != "todo")
                     result ~= subdir;
             }
         }
@@ -272,7 +272,7 @@ int main(string[] args)
         {
             if (arg.driveName)
             {
-                if (arg.exists && arg.isdir)
+                if (arg.exists && arg.isDir)
                 {
                     soloProject = arg;
                 }

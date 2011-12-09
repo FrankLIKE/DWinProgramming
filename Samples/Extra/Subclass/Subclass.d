@@ -171,7 +171,7 @@ LRESULT WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-int OnCreate(const HWND hwnd, CREATESTRUCT* cs)
+int OnCreate(HWND hwnd, CREATESTRUCT* cs)
 {
     // handles the WM_CREATE message of the main, parent window; return -1 to fail
     // window creation

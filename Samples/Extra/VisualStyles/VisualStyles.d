@@ -153,7 +153,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             hOld = SelectObject(hdcMem, hbmMem);
         
             auto buttonRect = RECT(100, 100, 190, 130);
-            DrawThemedControl(hwnd, hdcMem, buttonRect, Control.Button);
+            DrawControl(hwnd, hdcMem, buttonRect, Control.Button);
          
             // Transfer the off-screen DC to the screen
             BitBlt(hdc, 0, 0, cxClient, cyClient, hdcMem, 0, 0, SRCCOPY);
@@ -177,7 +177,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-void DrawThemedControl(HWND hwnd, HDC hdcMem, RECT rect, Control control)
+void DrawControl(HWND hwnd, HDC hdcMem, RECT rect, Control control)
 {
     HTHEME hTheme = OpenThemeData(hwnd, "Button");
     scope(exit)
@@ -201,7 +201,6 @@ void DrawThemedControl(HWND hwnd, HDC hdcMem, RECT rect, Control control)
             break;
         }
     }
-    
 }
 
 import std.utf : count;

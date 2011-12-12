@@ -4,9 +4,7 @@
  +     (See accompanying file LICENSE_1_0.txt or copy at
  +           http://www.boost.org/LICENSE_1_0.txt)
  +
- +  Demonstrates using VisualStyles to draw themed controls.
- +  If there is no active theme (i.e. Windows Classic style is active),
- +  we use a custom paint routine.
+ +  Similar as Extra\VisualStyles, but adds hit testing.
  +/
 
 module VisualStyles;
@@ -18,6 +16,7 @@ import std.conv;
 import std.math;
 import std.range;
 import std.string;
+import std.traits;
 import std.utf;
 
 auto toUTF16z(S)(S s)
@@ -117,6 +116,23 @@ enum Control
     Button
 }
 
+template isOneOf(X, T...)
+{
+    static if (!T.length)
+        enum bool isOneOf = false;
+    else static if (is (X == T[0]))
+        enum bool isOneOf = true;
+    else
+        enum bool isOneOf = isOneOf!(Unqual!X, T[1..$]);
+}
+
+auto get(T)(LPARAM lParam)
+    if (isOneOf!(T, SIZE, POINT))
+{
+    return T(cast(short)LOWORD(lParam),
+             cast(short)HIWORD(lParam));
+}
+
 extern (Windows)
 LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -124,7 +140,10 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     int x, y;
     HDC hdc;
     PAINTSTRUCT ps;
-
+    //~ static int buttonState;
+    static POINT hitPoint;
+    static bool mouseLDown;
+    
     static HDC     hdcMem;
     static HBITMAP hbmMem;
     static HANDLE  hOld;
@@ -132,6 +151,29 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     
     switch (message)
     {
+        case WM_LBUTTONDOWN:
+        {
+            hitPoint = get!POINT(lParam);
+            mouseLDown = true;
+            InvalidateRect(hwnd, NULL, TRUE);
+            return 0;
+        }        
+        
+        case WM_LBUTTONUP:
+        {
+            hitPoint = get!POINT(lParam);
+            mouseLDown = false;
+            InvalidateRect(hwnd, NULL, TRUE);
+            return 0;
+        }
+        
+        case WM_MOUSEMOVE:
+        {
+            hitPoint = get!POINT(lParam);
+            InvalidateRect(hwnd, NULL, TRUE);
+            return 0;
+        }
+        
         case WM_SIZE:
             cxClient = LOWORD(lParam);
             cyClient = HIWORD(lParam);
@@ -152,8 +194,9 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             hbmMem = CreateCompatibleBitmap(hdc, cxClient, cyClient);
             hOld = SelectObject(hdcMem, hbmMem);
         
+            //~ writeln(buttonState);
             auto buttonRect = RECT(100, 100, 190, 130);
-            DrawControl(hwnd, hdcMem, buttonRect, Control.Button);
+            DrawControl(hwnd, hdcMem, buttonRect, Control.Button, mouseLDown, hitPoint);
          
             // Transfer the off-screen DC to the screen
             BitBlt(hdc, 0, 0, cxClient, cyClient, hdcMem, 0, 0, SRCCOPY);
@@ -177,7 +220,7 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-void DrawControl(HWND hwnd, HDC hdcMem, RECT rect, Control control)
+void DrawControl(HWND hwnd, HDC hdcMem, RECT rect, Control control, bool mouseLDown, POINT hitPoint)
 {
     HTHEME hTheme = OpenThemeData(hwnd, "Button");
     scope(exit)
@@ -192,11 +235,11 @@ void DrawControl(HWND hwnd, HDC hdcMem, RECT rect, Control control)
         {
             if (hTheme is null)
             {
-                DrawCustomButton(hdcMem, rect);
+                DrawCustomButton(hdcMem, rect, mouseLDown, hitPoint);
             }
             else
             {
-                DrawThemedButton(hTheme, hdcMem, rect);
+                DrawThemedButton(hTheme, hdcMem, rect, mouseLDown, hitPoint);
             }
             break;
         }
@@ -207,7 +250,7 @@ import std.utf : count;
 import std.exception;
 import std.stdio;
 
-void DrawCustomButton(HDC hDC, RECT rc)
+void DrawCustomButton(HDC hDC, RECT rc, bool mouseLDown, POINT hitPoint)
 {
     SIZE size;
     auto text = "My button";
@@ -228,18 +271,30 @@ void DrawCustomButton(HDC hDC, RECT rc)
     TextOut(hDC, xPos, yPos, text.toUTF16z, text.count);
 }
 
-void DrawThemedButton(HTHEME hTheme, HDC hDC, RECT rc)
+void DrawThemedButton(HTHEME hTheme, HDC hDC, RECT rc, bool mouseLDown, POINT hitPoint)
 {
     RECT rcContent;
     HRESULT hr;
+    int state;
+    auto text = "My button";   
 
-    auto text = "My button";
-    bool iState = 0;
+    WORD hitResult;
+    HitTestThemeBackground(hTheme, hDC, BP_PUSHBUTTON, state, 
+                           HTTB_BACKGROUNDSEG, &rc, null, hitPoint, &hitResult);        
+
+    if (hitResult == HTNOWHERE)
+    {
+        state = PBS_NORMAL;
+    }
+    else
+    {
+        state = mouseLDown ? PBS_PRESSED : PBS_HOT;
+    }
     
-    hr = DrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON, iState, &rc, null);
-    hr = GetThemeBackgroundContentRect(hTheme, hDC, BP_PUSHBUTTON, iState, &rc, &rcContent);
-    hr = DrawThemeText(hTheme, hDC, BP_PUSHBUTTON, iState, 
-                       text.toUTF16z, text.count,
-                       DT_CENTER | DT_VCENTER | DT_SINGLELINE,
-                       0, &rcContent);
+    DrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON, state, &rc, null);
+    GetThemeBackgroundContentRect(hTheme, hDC, BP_PUSHBUTTON, state, &rc, &rcContent);
+    DrawThemeText(hTheme, hDC, BP_PUSHBUTTON, state, 
+                  text.toUTF16z, text.count,
+                  DT_CENTER | DT_VCENTER | DT_SINGLELINE,
+                  0, &rcContent);
 }

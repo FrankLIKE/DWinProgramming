@@ -43,12 +43,11 @@
         
     - To enable the console and add debug symbols, append debug to the call:
         ..\..\..\build.exe "%cd%" debug
-        
+    
+    Note: The quotes are important for paths with spaces.
+
     - Alternatively you can use xfBuild (replace <exename> and <filename.d> accordingly)
-        xfbuild +o<exename> <filename.d> -I..\..\..\..\WindowsAPI -version=Unicode -version=WIN32_WINNT_ONLY -version=WindowsNTonly -version=Windows2000 -version=Windows2003 -version=WindowsXP -version=WindowsVista -L-Subsystem:Windows:4
-        
-    Note: The quotes are important
-    Note: The script will likely emit some warnings, but you don't have to worry about those.
+        xfbuild +o<exename> <filename.d> -I..\..\..\..\WindowsAPI -version=Unicode -version=WindowsXP -L-Subsystem:Windows:4
         
     Other options are:
     - Clean .obj, .map, .exe files:

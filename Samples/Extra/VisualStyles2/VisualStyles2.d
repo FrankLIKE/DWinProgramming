@@ -140,7 +140,6 @@ LRESULT WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     int x, y;
     HDC hdc;
     PAINTSTRUCT ps;
-    //~ static int buttonState;
     static POINT hitPoint;
     static bool mouseLDown;
     

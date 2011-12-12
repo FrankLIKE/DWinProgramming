@@ -1,6 +1,6 @@
 module ThemedSimpleWakeUp;
 
-// Same as ThemedWakeUp, except uses a precompiled manifest file.
+// Same as ThemedWakeUp, except it uses a precompiled manifest file.
 
 import core.memory;
 import core.runtime;

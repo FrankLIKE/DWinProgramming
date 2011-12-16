@@ -13,3 +13,5 @@ build-d-*
 *.dat
 *.exe
 *.o
+*.di
+*.dll

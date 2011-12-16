@@ -9,6 +9,8 @@ import std.range;
 import std.string;
 import std.utf;
 
+//~ extern(C) int _D5mydll12__ModuleInfoZ;
+
 auto toUTF16z(S)(S s)
 {
     return toUTFz!(const(wchar)*)(s);
@@ -32,6 +34,8 @@ HINSTANCE hinst;
 // however a DLL doesn't export its moduleinfo symbol, therefore we add a dummy symbol
 // here to silence the linker.
 extern(C) int D6EdrLib12__ModuleInfoZ;
+extern(C) int _D6EdrLib12__ModuleInfoZ;
+//~ extern(C) int _D5win327winuser13CreateWindowWFPxuPxukiiiiPvPvPvPvZPv;
 
 extern (Windows)
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)

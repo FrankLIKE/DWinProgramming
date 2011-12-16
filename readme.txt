@@ -1,321 +1,34 @@
 == About Windows Programming in D ==
-    This is a translation project of Charles Petzold's Programming Windows (5th edition) book 
-    code samples.
+    This collection of samples from Charles Petzold's Programming Windows book 
+    translated into D2, plus a small collection of other WinAPI samples.
     
-    The code samples demonstrate the use of Windows API systems, such as GDI and multimedia APIs. 
-    There are over 120 D code samples translated from the original C code samples from the book.
-    
-    See the `List of Examples and Description` section for more information about what the
-    examples contain.
-    
+    See examples.txt for a description of the samples.
     This project has been created by Andrej Mitrovic.
-    
     Project Homepage: https://github.com/AndrejMitrovic/DWinProgramming
 
-== Latest Update  ==
-    View the git log for the changesets. 
-    Git log info: http://book.git-scm.com/3_reviewing_history_-_git_log.html
-
 == Building Requirements ==
-    - Windows XP 32bit or Windows 7 32bit. The current DMD compiler (2.056) cannot compile 64bit
-      object code. However you should be able to run 32bit executables on a 64bit system.
-
-    - DMD v2.056+ compiler or newer. Download DMD from: http://www.digitalmars.com/d/download.html
-      Usage instructions (nice bookmark): http://d-programming-language.org/dmd-windows.html
+    - Windows XP+.
+    - DMD v2.057+ compiler or newer. Download DMD from: http://www.digitalmars.com/d/download.html
+      Usage instructions: http://d-programming-language.org/dmd-windows.html
       
     Note: Only NT systems are suppported.
-    Note: The sample code might not be 64bit-ready yet.
 
 == Building ==
-    - Make sure you've installed DMD and have its DMD2\Windows\Bin directory location in the 
-      PATH environment variable.
-      If you don't know how to set up environment variables, see this guide: 
-        http://www.computerhope.com/issues/ch000549.htm
+    - Compile the build script:
+        make_build.bat
     
-    - Build the build script:
-        dmd build.d
-    
-    - Build the samples by calling:
-        .\build.exe
+    - Build all the samples by running:
+        build.exe
         
+    *Note*: To build via GDC you need to install Perl, copy gdmd.bat to the \bin\ folder
+    of GDC, and then run:
+        build.exe GDC
+    
     - To build only a single example, CD to its directory and run:
         ..\..\..\build.exe "%cd%"
-        
-    - To enable the console and add debug symbols, append debug to the call:
-        ..\..\..\build.exe "%cd%" debug
     
+    Other options are: clean, debug, DMD (this is the default).
     Note: The quotes are important for paths with spaces.
-
-    - Alternatively you can use xfBuild (replace <exename> and <filename.d> accordingly)
-        xfbuild +o<exename> <filename.d> -I..\..\..\..\WindowsAPI -version=Unicode -version=WindowsXP -L-Subsystem:Windows:4
-        
-    Other options are:
-    - Clean .obj, .map, .exe files:
-        build.exe clean
-        
-    Note: If you can't compile the samples with a newer version of DMD, file a bug report or 
-    send me an e-mail (see the contact section), and I'll fix the samples as soon as possible.        
-
-== List of Examples and their Description ==
- 
-Note: These samples are described alphabetically, but they might appear in a different order
-in the book.
-
-
-Chap01:
-    HelloMsg - Creates a simple Dialog Box without a window.
-               
-Chap02:        
-    ScrnSize - Shows the screen dimensions in a dialog box.
-               
-Chap03:        
-    HelloWin - Create a window class, spawn the window, display text on the screen 
-               and load and play a wave file.
-               
-Chap04:        
-    SysMets1 - Display various system metrics: screen dimensions, icon/cursor dimensions,
-               window sizes, etc.
-    SysMets2 - Same as above, but adds a scrollbar to view text that doesn't fit in the 
-               window.
-    SysMets3 - Same as above, but makes the scrollbar smarter by making its size relative 
-               to the contents of a text buffer.
-               
-Chap05:        
-    AltWind  - Draws points, lines, and rectangles on the screen. Also shows various fill modes.
-    Bezier   - Draws bezier curves which can be dynamically changed with the left or right
-               mouse buttons.
-    Clover   - Draws a complex Clover shape by using regions and combinations.
-    DevCaps1 - Displays capabilities of the drawing device (the display screen).
-    LineDemo - Draws lines, rectangles and ellipses layered on top of each other.
-    RandRect - Draws random rectangles (time pauses were added to avoid flicker).
-    SineWave - Draws a full phase of a sine wave.
-    WhatSize - Displays the size of the window, dynamically reflecting any changes.
-               
-Chap06:        
-    KeyView1 - Dynamically displays pressed and released keys over time.
-    KeyView2 - Same as above, but selects the current system-default font when displaying.
-    StokFont - Displays an ASCII table in various default fonts. Use the scrollbars to cycle
-               drawing with different fonts.
-    SysMets4 - Same as SysMets3, but also enables scrolling via the up/down, pageup/pagedown
-               keys on the keyboard.
-    Typer    - A simplistic text drawing program which text as it's inputted by the user,
-               and also responds to the delete, backspace, and tab keys.
-               
-Chap07:        
-    BlokOut1 - Draws a filled rectangle in an area dynamically selected by the mouse.
-    BlokOut2 - Same as above, but also enables drawing even if the mouse is outside the 
-               window area.
-    Checker1 - Draws rectangles and demonstrates a hitbox tracking method, where the
-               rectangle hit is drawn over with two diagonal lines.
-    Checker2 - Same as above, but also enables keyboard control which moves the mouse
-               cursor to the center of a rectangle.
-    Checker3 - Same as Checker1, but uses windows for each rectangle and makes a single
-               window class that handles the hitbox tracking logic.
-    Checker4 - Same as above, but enables keyboard control and draws a dotted rectangle
-               which marks the currently selected window by the keyboard.
-    Connect  - Tracks mouse movement when the left button is pressed, stores the coordinates
-               and then draws lines connecting all the coordinates when the button is released.
-    SysMets  - Same as SysMets4, but also enables scrolling with the mouse wheel.
-               
-Chap08:        
-    Beeper1  - Uses a timer to flip between drawing the screen in red and blue colors.
-    Beeper2  - Same as above, but uses its own custom timer function.
-    Clock    - Draws an analog-style clock which follows the system time.
-    DigClock - Draws a digital-style clock which follows the system time.
-    WhatClr  - Displays the current color pointed to by the mouse cursor in hexadecimal.
-                
-Chap09:         
-    BtnLook - Draws various types of buttons and receiving notification when
-              the buttons are pressed or when their states are cycled through.
-    Colors1 - Draws a rectangle filled with a color dynamically set by three scrollbars
-              which control the Red, Green and Blue values.
-    Environ - Lists all the Environment Variables in a list box. When a variable is selected,
-              its contents are also displayed.
-    head    - A custom DOS-style file system browser controled by either the keyboard or the 
-              mouse. Also displays the contents of each file when double-clicked or entered.
-    OwnDraw - Draws two custom buttons which, when clicked, change the size of the window.
-    PopPad1 - Instantiates the standard Windows Edit control.
-                
-Chap10:         
-    IconDemo - Draws an icon resource which was compiled into the application.
-    MenuDemo - Instantiates a window with a menu defined from a resource file. Uses menu actions
-               to change the background color of the window.
-    NoPopups - Uses a menu which expands its options inline.
-    PoePoem  - Loads and displays a text resource compiled into the application.
-    PoorMenu - Adds options in the system menu (accessible by clicking the icon in the top-left
-               corner of the application).
-    PopMenu  - Displays popup submenus.
-    PopPad2  - Same as PopPad1 but also loads a menu with cut/copy/paste actions.
-                
-Chap11:         
-    About1  - Displays a simple about dialog box.
-    About2  - Displays a dialog box which adds controls to change the background shape and color.
-    About3  - Displays custom shapes in a dialog box.
-    Colors2 - Same as Colors1, but places the scrollbars inside their own dialog box.
-    Colors3 - Instantiates a standard Windows color selection dialog box.
-    HexCalc - A hex calculator with buttons used for calculations. Can also control it with the
-              keyboard.
-    PopPad3 - An enhanced version of the PopPad2 editor, adding searching, file handling and
-              copy/paste functionality, as well as font selection.
-                
-Chap12:         
-    ClipText - A simple clipboard viewer.
-    ClipView - A dynamic version of the above which automatically displays new clipboard contents.
-                
-Chap13 (Note: You can use a virtual printer driver such as CutePDF to print documents to a PDF file)
-    DevCaps2 - Uses menus to select between displaying various draw/print capable devices,
-               and their various functions and capabilities.
-    FormFeed - Feeds a form to a printer device.
-    PopPad   - Same as PopPad3, but also adds printing functionality.
-    Print1   - Prints a customly drawn shape.
-    Print2   - Same as above, but adds option to abort printing.
-    Print3   - Same as Print1, but pops up a dialog box that shows the printing state (Note: this
-               dialog box closes pretty fast if you're using a virtual printer driver)
-               
-Chap14:        
-    BitBlt   - Bit-blits an icon loaded from a resource to the screen.
-    BitMask  - Uses a mask to limit drawing an image to an eliptic area.
-    Blowup   - Draws contents from the clipboard and resizes the image to the size of the window.
-    Bounce   - Animates a ball that bounces to the corners of the window.
-    Bricks1  - Draws a small resource-loaded icon tiled seamlessly on the screen.
-    Bricks2  - Same as above, but this time draws the icon programmaticaly and then tiles it on the
-               screen.
-    Bricks3  - Creates a pattern brush out of a resource-loaded image. This has the added advantage
-               of avoiding flicker when resizing the window.
-    GrafMenu - Uses a graphical menu and also demonstrates custom item-selection drawing.
-    HelloBit - Draws text to a bitmap, and based on a menu item selection either stretches it
-               or draws it in a pattern and bit-blits it to the screen.
-    Scramble - Creates a snapshot of the entire screen, and then draws scrambled rectangle sections
-               for a few seconds.
-    Sketch   - Draws black and white pixels on the screen based on the state of the left and right 
-               mouse buttons.
-    Stretch  - Uses the location of the system menu icon as the source to a bit-blit operation.
-               It stretches the icon of the system menu to the size of the window.
-                
-Chap15:         
-    Apollo11 - Loads bitmap images from the disk and displays them in a window.
-    DibConv  - Converts a Device Independent Bitmap (DIB) to a Device Dependent Bitmap (DDB)
-               and displays it on the screen.
-    DibHeads - Displays the header information of a bitmap file.
-    DibSect  - Displays a bitmap in a window.
-    SeqDisp  - Displays a bitmap sequentially, in a row-by-row fashion.
-    ShowDib1 - Loads and saves a bitmap.
-    ShowDib2 - Same as above, but adds menu options that can display the image in actual size,
-               centered, stretched to window, and stretched to window isotropically. Also adds
-               cut/copy/paste functionality.
-                
-Chap16:         
-    The examples from this chapter have not been translated as they cover 8-bit displays,
-    which no-longer exist.
-                
-Chap17:         
-    ChosFont - Displays Unicode text and a list of the currently selected font's properties.
-    EndJoin  - Draws ends and joins of a path.
-    EZTest   - Draws text in increasing sizes and shows its dimensions.
-    FontClip - Draws paths clipped to some text.
-    FontFill - Fills the inside of each character drawn.
-    FontOut1 - Draws an outline of a font's text.
-    FontOut2 - Same as above, but uses dotted lines instead.
-    FontRot  - Draws text in several degrees rotated on an axis.
-    Justify1 - Draws left-aligned text with word wrapping functionality.
-    Justify2 - Draws text which, based on a menu option, can be aligned left, right, centered,
-               or stretched. The font can be selected.
-    PickFont - Shows numerous font options which can be used to manipulate how the font is drawn.
-    UniChars - Similar to Chap06/StokFont, but this time draws characters in a Unicode table.
-                
-Chap18: 
-    Emf1     - Creates and displays an enhanced metafile (EMF).
-    Emf2     - Creates an enhanced metafile, saves it to disk, and then displays it.
-    Emf3     - Creates non-default pens and brushes and stores it to an EMF.
-    Emf4     - Draws a bitmap in a metafile device context.
-    Emf5     - Enumerates individual records of a metafile.
-    Emf6     - Copies and modifies metafile records before rendering them.
-    Emf7     - Embeds images into a metafile.
-    Emf8     - Accurately display a metafile with a proper aspect ratio by using
-               the sizing information in the header of the metafile.
-    Emf9     - Uses sizing information from a metafile header to both display the metafile
-               accurately on the screen, and correctly print it out.
-    Emf10    - Demonstrates scaling and aspect ratio handling of a metafile.
-    Emf11    - Uses mapping modes with metafiles.
-    Emf12    - Shows more usage of mapping modes.
-    Emf13    - Loads an existing metafile, and uses a mapping mode to calculate
-               the destionation rectangle.
-    EmfView  - Saves and loads metafiles, and transfers them from and to the clipboard.
-    Metafile - Creates and shows an old-format metafile.
-                
-Chap19:         
-    MDIDemo - Instantiates multiple windows within the main window, and adds options to
-              align the windows by side, cascade, or maximize. Can instantiate any number
-              of windows.
-                
-Chap20: 
-    Note: C and D multithreaded programming differ in significant ways. These are not 
-    typical examples of programming multithreaded D code, they use globally shared
-    variables to simulate the C examples. 
-    
-    Techniques such as message passing and thread pools should be used instead of 
-    Windows multithreading API primitives. 
-    
-    Please take a look at the documentation of std.concurrency and std.parallelism for
-    a better demonstration of multithreaded programming in D.
-         
-    BigJob1  - Spawns a work thread which does some processing. The foreground thread (which
-               spawned the work thread) can signal the work thread to stop processing by
-               changing the state of a global variable. The work load was increased by an
-               order of magnitude compared to the C example.
-    BigJob2  - Uses the Windows function WaitForSingleObject to wait for an object to be
-               signalled. 
-    Multi1   - Creates 4 windows that each have separate window classes. This is a very
-               minimal form of multithreading, as Windows will attempt to automatically 
-               load-balance the window classes on a multi-core system.
-    Multi2   - Similar to above, but this time each window class spawns its own work thread.
-               Based on your system this could significantly improve performance.
-    RndRctMT - A multithreaded version of Chap05\RandRect, which draws random rectangles
-               on the screen.
-                
-Chap21:       
-    At the time of writing there are various bugs with using D DLLs.
-    Some of these examples use workarounds to make them compilable.
-              
-    EdrTest - Implicitly loads a DLL, calls its custom drawing function which draws some
-              text on the screen.
-    ShowBit - Explicitly loads a DLL and draws image resources from the DLL.
-    StrProg - Implicitly loads a DLL which internally stores a list of strings (implemented
-              as a hash of strings), and which provides functions to add or remove strings.
-              The application provides menus that allow the user to add or remove strings.
-                
-Chap22:         
-    AddSynth - Generates various sound forms, stores them to a file, loads them back and
-               adds an interface so the user can play them back.
-    BachTocc - Plays a programmatically generated MIDI sequence.
-    Drum     - A sequencer which has a table interface where the user can activate notes,
-               change the tempo and volume, and save and load patterns in RIFF format.
-    KBMidi   - Converts PC keyboard key presses into MIDI notes, and plays them back
-               via the sound card (Make sure to select Status\Open first).
-    SineWave - Plays back a sinewave at a specific frequency. The frequency can be manipulated
-               with a horizontal scrollbar.
-    TestMci  - Sends and recieves Media Control Interface (MCI) commands. (Try typing in
-               "open cdaudio" without the quotes and press enter. Some other commands are:
-               play cdaudio, pause cdaudio, stop cdaudio, status cdaudio position,
-               status cdaudio time format).
-    WakeUp   - Generates a pulsating waveform which is used as the sound of an alarm clock.
-               The alarm clock can be set and the user can wait for the alarm to be set off.
-                
-Chap23:         
-    NetTime -  Retrieves timing information from various selectable timing servers.
-               @BUG@: Currently this example doesn't seem to succesfully retrieve any
-               timing info. The C example doesn't work either.
-
-Extra:
-    These examples are not part of the book, but custom-made examples to demonstrate some
-    other parts of the API or some aspect of GDI not covered in the book.
-    
-    BackBuffer - Uses a simple back-buffer double-buffering mechanism to draw on the screen
-                 without flicker.
-
-    Cartesian  - Demonstrates how to use a custom coordinate system via GDI. By flipping 
-                 the Y axis we get the standard cartesian coordinate system.
-                 More info found here: http://www.functionx.com/visualc/gdi/gdicoord.htm
 
 == Optional Tools ==
     - HTOD: http://www.digitalmars.com/d/2.0/htod.html    
@@ -354,57 +67,25 @@ Extra:
 
 == Contact ==
     Please do not e-mail Charles Petzold about bugs in these examples,
-    any bugs or inconsistencies in the D examples are entirely my fault.
-
-    To contact me, send me a message via Github @ https://github.com/AndrejMitrovic, 
-    or e-mail me at: andrej.mitrovich<at>gmail.com
-
-== Todo ==
-    - Add 'indent' option to build script to run the indenter on all files or on a 
-      specific project.
-    - Use -v to track down stray module imports and then remove them.
-    - Check if examples compile and run on Vista.
-    - Use with statements where possible.
-    - Examples in Chap22\todo have not been translated yet.
-    - Try compiling 64bit binaries via GDC.
-    - Some examples have a Note at the top, saying they're not tested. They need to be
-      investigated to see what's wrong.
-    - Replace calls to wsprintf in Chap18\EmfView18.d with std.string.format(). (Note: 
-      wsprintf returns the length of the written string)
-    - Get rid of malloc/free calls and replace pointers with arrays where appropriate.
-    - Replace Windows type aliases like TCHAR to wchar, since we're exclusively using Unicode. 
-    - Replace excessive string copying with saner code. This is mostly caused by my own 
-      lazyness (This will be improved upon later. I mean the examples, not my lazyness :p).
-    - Go through the Errata pages to see if any examples have resource leaks or other bugs, 
-      and fix the equivalent D examples.
-    - In many cases variables with Hungarian notation should be renamed. Most pTypeVar 
-      variables no longer reflect their true type.
-    - For loops should be replaced with foreach loops where this makes sense. 
-    - UpdDemo was not ported since it cannot work due to a missing FTP server. See Errata2 in 
-      the links section, Chapter23.
-
-    Note: If you find any bugs that you'd like to fix or just want to improve the examples, 
-          feel free to contribute by forking the repo and making pull requests.
+    any bugs in these samples are entirely my fault.
+    File bugs here: https://github.com/AndrejMitrovic/DWinProgramming/issues
 
 == Acknowledgments ==
-    My salutes go out to the guys at the WindowsAPI translation project: 
+    Thanks to the authors of the WindowsAPI translation project: 
     http://dsource.org/projects/bindings/wiki/WindowsApi
     
-    A Big Thanks to Charles Petzold for writing a fantastic Windows API programming book and 
+    Big Thanks to Charles Petzold for writing a great Windows API programming book and 
     for allowing me to host these code samples online.
-    
-    And, of course, a Thanks goes to the Microsoft team for building and maintaining the large
-    family of Windows APIs that still work even after all these years. Cheers!
 
 == Contributors ==
     Simen Endsjø tested the project on an x64 Win7 system and found several issues.
     Leonardo Maffi created a Python script that got rid of stray parens.
     
-    Thanks to all contributors!
+    Thanks goes out to all contributors.
 
 == Licensing ==
-    All code examples' original copyright belongs to Charles Petzold.
-    Please see the answer to the 3rd question here:
+    All code examples copyright belongs to Charles Petzold.
+    Also see the answer to the 3rd question here:
     http://www.charlespetzold.com/faq.html
 
 == Links ==
@@ -431,106 +112,5 @@ Extra:
     http://universalindent.sourceforge.net/
     Using Resources in D Tutorial: http://prowiki.org/wiki4d/wiki.cgi?D__Tutorial/WindowsResources
     Unicode Character Viewer: http://rishida.net/scripts/uniview/
-
-== How the examples were ported ==
-    A few notes about the issues found when porting C code to D can be read about here:
-    http://www.digitalmars.com/webnews/newsgroups.php?art_group=digitalmars.D.announce&article_id=20764
-
-    I've made a stub file which contains the basic WinMain function.
-    Originally I've made a batch file build script but replaced this with a more safer and faster D
-    build script which doesn't assume you have all the dependencies and will warn you about
-    errors.
-
-    The porting process is:
-    - Run Uncrustify on the file to format the code to a specific look.
-      A configuration file that was used with Uncrustify is provided in the root directory.
-    - Copy the contents of the stub file, paste it at the top of an existing .c project. Compare to 
-      the .c file's winmain function and see if there's anything different (i.e. the app 
-      might have keyboard translators, or it creates menus and windows programatically, 
-      etc.). Copy any new or changed stuff to our D MyWinMain function.
-    - If the app uses resources uncomment the "import resource;" statement.
-    - Change 'appName' string to match the .c file's 'szAppName'. This is important as resources are 
-      usually tied to a name and won't load unless you specify the same name.
-    - Convert '->' to '.'.
-    - Change all TCHAR[] types to either strings, and then use toUTF16z when calling WinAPI 
-      functions, or change them to wchar[] if they're going to be written to.
-    - To call WinAPI functions which require the character length, I've used std.utf.count,
-      which returns the number of code points. Using the .length field directly would be
-      incorrect, as that returns the code unit count, not the code point count.
-    - Change "LRESULT CALLBACK WndProc" to "extern (Windows) LRESULT WndProc"
-    - Add default cases to all switch statements.
-    - Change fallbacks to "goto case;" statements (fallbacks are banned in 2.054+)
-    - Change sizeof(var) to var.sizeof
-    - Replace inline wsprintf calls such as:      
-      TextOut(hdc, 0, y += cyChar, szBuffer, wsprintf(szBuffer, ("lfWidth = %i"), lf.lfWidth));
-        
-      to this (also replace any special format specifiers with %s):
-          szBuffer = format("lfWidht = %s", lf.lfWidth);
-          TextOut(hdc, 0, y += cyChar, szBuffer.toUTF16z, szBuffer.count);
-    
-    - Pass static and dynamic arrays by using their .ptr field. 
-    - Floats and Doubles are default-initialized to NaN. This causes hardware halts or throws 
-      exceptions if we forget to initialize them, based on the configuration. A good way to catch 
-      exactly where a fault occured isto use the DDBG debugger.
-    - Replace GetWindowLong and SetWindowLong with the 64-bit compatible GetWindowLongPtr and
-      SetWindowLongPtr.
-
-    At this point I try to compile the module and typically get some of the following errors:
-    - linker errors meas we're probably missing a pragma call. E.g. if you import 
-      'import win32.wingdi;', you should also add 'pragma(lib, "gdi32.lib");'. The WindowsAPI 
-      modules each have a pragma at the top which you can copy into your projects.
-    - Change implicit casts to explicit casts, e.g. (HBRUSH)GetStockObject to 
-      cast(HBRUSH)GetStockObject
-    - Change assignment of strings to fields that expect pointers by using .toUTF16z
-    - Change any malloc and free calls to GC.malloc and GC.free (there are plenty left)
-    - 'PNTR var = GC.malloc()' itself has to be replaced with 'PNTR var = 
-      cast(typeof(var))GC.malloc().
-    - Change C-style struct initializers with explicit D ctor calls. This is always 
-      problematic to convert, but it helps if your editor supports macros or simultaneous 
-      multiline editing.
-    - Change C-style multidimensional arrays to D ones. Sometimes it's a simple conversion of 
-      TCHAR[][] to string[].
-    - Replace calls to TEXT("string") to either ("string") or "string". Either will work, 
-      while the conversion to latter might be harder to automate unless you're a happy regex 
-      hacker.
-    - Fix implicit conversions of 0 to void*, this won't compile in D so we use null here 
-      instead.
-    - Sometimes calls to LOWORD and HIWORD have to be casted to a short or some other type. 
-      In some C examples this was missing and produced erratic GUI behavior due to various 
-      implicit unsigned int<>short conversions. (See Chap7/BlokOut2/BlokOut2.c and its 
-      executable for an example. Try making a selection beyond the border of the window to 
-      see the bug.)
-    - Change static vars to enums where appropriate. Some statics are used as immutable 
-      values in C, in those cases we can use enums (this might not always work due to CTFE 
-      limitations).
-    - Replace comparisons with null with 'is null' and '!is null'.
-    - Add any missing imports. There are usually two cases:
-      1. We're missing a winapi prototype, so we find it in the WindowsAPI library and do an 
-         import to a specific module.
-      2. There was a .c file with various functions which is used in multiple examples. 
-         Sometimes its missing in the current directory, so I had to copy it from the other 
-         examples.
-    - Some API calls write to a static array by giving them the .ptr field of such an array. 
-      To retrieve a D string out of such an array, we have to treat it as a wchar* 
-      zero-terminated string. So I've had to write a fromWStringz function for this purpose. 
-      This should all be avoided by writing better code, code like this will be improved later.
-
-    Additional changes:
-    - Put BeginPaint and EndPaint next to each other by using 'scope(exit) EndPaint' after 
-      the call to BeginPaint. Same thing for SelectObject - DeleteObject.
-    - Speed issues: There was an example or two where the speed of drawing shapes was 
-      extremely fast (the book was written for 1998 machines). In those cases I've added a 
-      call to Thread.sleep() in the example's drawing loop.
-    - Replace for loops with foreach loops.
-
-    Final steps:
-    - Make sure the example compiles runs the same as the C example (unless the C example was 
-      buggy to begin with). There might be runtime bugs that need to be taken care of, such as:
-        - Missing menus
-        - Missing or incorrect icons (e.g. forgot to replace a call like 'LoadIcon(NULL, 
-          IDI_APPLICATION);' to 'LoadIcon(NULL, IDI_INFORMATION);
-        - Incorrect background color (e.g. used 'wndclass.hbrBackground = cast(HBRUSH) 
-          GetStockObject(WHITE_BRUSH);' instead of 'wndclass.hbrBackground = cast(HBRUSH) 
-          GetStockObject(BLACK_BRUSH);'
-        - I could have forgotten to uncomment "import resource;" in the code.
-
+    Environment Variables: http://www.computerhope.com/issues/ch000549.htm
+    Environment Editor: http://www.rapidee.com/

@@ -28,8 +28,7 @@ import std.traits;
 enum BUFSIZE = 4096;
 
 // Todo: Comment from NG:
-// I know these are basic examples, but I think in RedirectChildHandle.d, CreateChildProcess, you should (ideally) be closing childStdoutWrite and childStdinRead /after/ CreateProcess.  If you don't you get 2 copies of them, one in the child and one in the parent.  If the child closes its copy the parent will not notice the pipe close (when reading from the other end of the pipe - for example).  If you close it, it will mean that you will actually drop out of a blocking read in the parent immediately (when the child terminates), rather than timing out and then discovering the child has terminated (using the thread or process handle).
-
+// in RedirectChildHandle.d, CreateChildProcess, you should be closing childStdoutWrite and childStdinRead after CreateProcess.  If you don't you get 2 copies of them, one in the child and one in the parent.  If the child closes its copy the parent will not notice the pipe close (when reading from the other end of the pipe - for example).  If you close it, it will mean that you will actually drop out of a blocking read in the parent immediately (when the child terminates), rather than timing out and then discovering the child has terminated (using the thread or process handle).
 
 HANDLE childStdinRead;
 HANDLE childStdinWrite;

@@ -12,3 +12,4 @@ build-d-*
 *.obj
 *.dat
 *.exe
+*.o

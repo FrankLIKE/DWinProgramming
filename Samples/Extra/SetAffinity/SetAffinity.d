@@ -32,7 +32,6 @@ auto toUTF16z(S) (S s)
     return toUTFz!(const(wchar)*)(s);
 }
 
-
 size_t getNthAffinityMaskBit(size_t n)
 {
     version (Windows)
@@ -88,7 +87,29 @@ size_t getNthAffinityMaskBit(size_t n)
     return affinityMask;
 }
 
-void main()
+extern (Windows)
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)
+{
+    int result;
+    void exceptionHandler(Throwable e) { throw e; }
+
+    try
+    {
+        Runtime.initialize(&exceptionHandler);
+        myMain();
+        Runtime.terminate(&exceptionHandler);
+    }
+    catch (Throwable o)
+    {
+        MessageBox(null, o.toString().toUTF16z, "Error", MB_OK | MB_ICONEXCLAMATION);
+        result = 0;
+    }
+
+    return result;
+}
+
+
+void myMain()
 {
     writeln( getNthAffinityMaskBit(0) );
     writeln( getNthAffinityMaskBit(1) );

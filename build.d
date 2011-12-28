@@ -107,7 +107,7 @@ void checkTools()
 
     if (skipResCompile)
     {
-        writeln("Warning: RC Compiler Include dirs not found. Builder will will use precompiled resources.");
+        //~ writeln("Warning: RC Compiler Include dirs not found. Builder will will use precompiled resources.");
     }
     
     writeln();

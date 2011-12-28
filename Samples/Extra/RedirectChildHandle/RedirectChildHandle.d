@@ -1,5 +1,8 @@
 module RedirectChildHandle;
 
+// Note: See the Pipe sample instead, which is a minimal pipe example
+// with an execute() API same as the upcoming std.process module.
+
 pragma(lib, "gdi32.lib");
 
 import core.memory;
@@ -132,6 +135,10 @@ void CreateChildProcess()
         // Some applications might keep these handles to monitor the status
         // of the child process, for example.
 
+        // close 
+        CloseHandle(childStdoutWrite);
+        CloseHandle(childStdinRead);
+        
         CloseHandle(piProcInfo.hProcess);
         CloseHandle(piProcInfo.hThread);
     }
@@ -178,8 +185,9 @@ void ReadFromPipe()
     // read end of the pipe, to control child process execution.
     // The pipe is assumed to have enough buffer space to hold the
     // data the child process has already written to it.
-    if (!CloseHandle(childStdoutWrite))
-        ErrorExit(("StdOutWr CloseHandle"));
+    CloseHandle(childStdoutWrite);
+    //~ if (!CloseHandle(childStdoutWrite))
+        //~ ErrorExit(("StdOutWr CloseHandle"));
 
     while (1)
     {

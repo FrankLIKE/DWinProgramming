@@ -440,12 +440,19 @@ int main(string[] args)
     }
     catch (FailedBuildException exc)
     {
-        writefln("\n%s projects failed to build:", exc.failedMods.length);
-        foreach (i, mod; exc.failedMods)
+        if (soloProject.length)
         {
-            writeln(mod, "\n", exc.errorMsgs[i]);
+            writefln("%s failed to build.\n%s", exc.failedMods[0], exc.errorMsgs[0]);
         }
-        
+        else
+        {
+            writefln("%s projects failed to build:", exc.failedMods.length);
+            foreach (i, mod; exc.failedMods)
+            {
+                writeln(mod, "\n", exc.errorMsgs[i]);
+            }
+        }
+            
         return 1;
     }
     

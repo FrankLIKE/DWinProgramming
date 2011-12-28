@@ -70,7 +70,7 @@ void checkTools()
     if (res == -1 || res == 1)
     {
         skipHeaderCompile = true;
-        writeln("Warning: HTOD missing, won't retranslate .h headers.");
+        //~ writeln("Warning: HTOD missing, won't retranslate .h headers.");
     }
     
     try { std.file.remove("test.h"); } catch {};
@@ -88,7 +88,7 @@ void checkTools()
         if (res == -1 || res == 1)
         {
             skipResCompile = true;
-            writeln("Warning: RC Compiler not found. Builder will will use precompiled resources. See README for more details..");
+            //~ writeln("Warning: RC Compiler not found. Builder will use precompiled resources. See README for more details..");
         }
         
         try { std.file.remove("test.rc");   } catch {};
@@ -213,7 +213,7 @@ bool buildProject(string dir, out string errorMsg)
                 break;
             }
         }
-
+        
         auto procInfo2 = createProcessPipes();
         int res = runProcess(res_cmd, procInfo2);
         auto output = readProcessPipeString(procInfo2);
@@ -234,7 +234,6 @@ bool buildProject(string dir, out string errorMsg)
     auto sources   = dir.getFilesByExt("d", (compiler == Compiler.DMD) 
                                              ? "res"
                                              : "o");
-    
     if (sources.length)
     {
         if (!silent) 
@@ -385,7 +384,7 @@ int main(string[] args)
         else if (arg.toLower == "dmd") compiler = Compiler.DMD;
         else
         {
-            if (arg.driveName)
+            if (arg.driveName.length)
             {
                 if (arg.exists && arg.isDir)
                 {
@@ -402,8 +401,8 @@ int main(string[] args)
     if (soloProject.length)
     {
         silent = true;
+        dirs = [rel2abs(soloProject)];
         chdir(r"..\..\..\");
-        dirs = [soloProject];
     }
     else
     {
@@ -441,13 +440,10 @@ int main(string[] args)
     }
     catch (FailedBuildException exc)
     {
-        if (!silent)
+        writefln("\n%s projects failed to build:", exc.failedMods.length);
+        foreach (i, mod; exc.failedMods)
         {
-            writefln("\n%s projects failed to build:", exc.failedMods.length);
-            foreach (i, mod; exc.failedMods)
-            {
-                writeln(mod, "\n", exc.errorMsgs[i]);
-            }
+            writeln(mod, "\n", exc.errorMsgs[i]);
         }
         
         return 1;

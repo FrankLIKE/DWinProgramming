@@ -119,7 +119,7 @@ enum NUMHOOKS = 7;
 
 struct MYHOOKDATA
 {
-    int nType;
+    int nType;  // hook type (WH_CALLWNDPROC, etc)
     HOOKPROC hkprc;
     HHOOK hhook;
 }
@@ -139,10 +139,6 @@ LRESULT WndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     switch (uMsg)
     {
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;        
-        
         case WM_CREATE:
 
             // Save the menu handle
@@ -172,10 +168,6 @@ LRESULT WndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             switch (LOWORD(wParam))
             {
-                case IDM_APP_EXIT:
-                    SendMessage(hwndMain, WM_CLOSE, 0, 0);
-                    return 0;                
-                
                 // The user selected a hook command from the menu.
                 case IDM_CALLWNDPROC:
                 case IDM_CBT:
@@ -197,7 +189,11 @@ LRESULT WndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
                         myhookdata[index].hhook = SetWindowsHookEx(
                             myhookdata[index].nType,
                             myhookdata[index].hkprc,
-                            cast(HINSTANCE)null, GetCurrentThreadId());
+                            cast(HINSTANCE)null,    // DLL handle, must be null for current thread handlers
+                            GetCurrentThreadId());  // Thread ID, or 0 if used for all desktop threads
+                        
+                        // SetWindowsHookEx: http://msdn.microsoft.com/en-us/library/ms644990%28v=VS.85%29.aspx
+                        
                         CheckMenuItem(hmenu, index, MF_BYCOMMAND | MF_CHECKED);
                         afHooks[index] = TRUE;
                     }
@@ -213,6 +209,10 @@ LRESULT WndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     break;
                 }
 
+                case IDM_APP_EXIT:
+                    SendMessage(hwndMain, WM_CLOSE, 0, 0);
+                    return 0;                
+                
                 default:
                     return DefWindowProc(hwndMain, uMsg, wParam, lParam);
             }
@@ -220,6 +220,11 @@ LRESULT WndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
             break;
         }
 
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;        
+        
+        
         default:
             return DefWindowProc(hwndMain, uMsg, wParam, lParam);
     }

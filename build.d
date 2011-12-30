@@ -71,7 +71,7 @@ void checkTools()
     if (res == -1 || res == 1)
     {
         skipHeaderCompile = true;
-        //~ writeln("Warning: HTOD missing, won't retranslate .h headers.");
+        writeln("Warning: HTOD missing, won't retranslate .h headers.");
     }
     
     try { std.file.remove("test.h"); } catch {};
@@ -88,7 +88,7 @@ void checkTools()
         if (res == -1 || res == 1)
         {
             skipResCompile = true;
-            //~ writeln("Warning: RC Compiler not found. Builder will use precompiled resources. See README for more details..");
+            writeln("Warning: RC Compiler not found. Builder will use precompiled resources. See README for more details..");
         }
         
         try { std.file.remove("test.rc");   } catch {};
@@ -103,11 +103,13 @@ void checkTools()
             RCINCLUDES = includes;
             skipResCompile = false;
         }
+        else
+            writeln("Won't compile resources.");
     }   
 
     if (skipResCompile)
     {
-        //~ writeln("Warning: RC Compiler Include dirs not found. Builder will will use precompiled resources.");
+        writeln("Warning: RC Compiler Include dirs not found. Builder will will use precompiled resources.");
     }
     
     writeln();
@@ -198,8 +200,7 @@ bool buildProject(string dir, out string errorMsg)
                 res_cmd = "cmd /c rc /i" ~ `"` ~ RCINCLUDES[0] ~ `"` ~ 
                           " /i" ~ `"` ~ RCINCLUDES[1] ~ `"` ~
                           " /i" ~ `"` ~ RCINCLUDES[2] ~ `"` ~ 
-                          " " ~ resources[0].stripExtension ~ ".rc"
-                          " > nul";                
+                          " " ~ resources[0].stripExtension ~ ".rc";                
                 break;
             }
             
@@ -224,9 +225,10 @@ bool buildProject(string dir, out string errorMsg)
         }
     }
 
-    // @BUG@ htod can't output via -of or -od, causes multithreading issues
-    //~ headers.length && system("htod " ~ headers[0]);
-    //~ headers.length && system("copy resource.d " ~ rel2abs(dir) ~ r"\resource.d");
+    // @BUG@ htod can't output via -of or -od, causes multithreading issues.
+    // We're distributing precompiled .d files now.
+    //~ headers.length && system("htod " ~ headers[0] ~ " " ~ r"-IC:\dm\include");
+    //~ headers.length && system("copy resource.d " ~ rel2abs(dir) ~ r"\resource.d > nul");
     
     // get sources after any .h header files were converted to .d header files
     //~ auto sources   = dir.getFilesByExt("d", "res");

@@ -20,8 +20,9 @@
     - Build all the samples by running:
         build.exe
         
-    *Note*: To build via GDC you need to install Perl, copy gdmd.bat to the \bin\ folder
-    of GDC, and then run:
+    *Note*: To build via GDC you need to have Perl installed, 
+    then copy _gdmd.bat to the \bin\ folder of GDC and rename it to gdmd.bat, 
+    and then run:
         build.exe GDC
     
     - To build only a single example, CD to its directory and run:

@@ -20,16 +20,21 @@
     - Build all the samples by running:
         build.exe
         
-    *Note*: To build via GDC you need to have Perl installed, 
-    then copy _gdmd.bat to the \bin\ folder of GDC and rename it to gdmd.bat, 
-    and then run:
-        build.exe GDC
+    - GDC Note: 
+        To build via GDC you need to have Perl installed.
+        Make sure GDC is in PATH, and then run:
+            build.exe GDC
     
     - To build only a single example, CD to its directory and run:
         ..\..\..\build.exe "%cd%"
     
     Other options are: clean, debug, DMD (this is the default).
     Note: The quotes are important for paths with spaces.
+
+== Useful Scripts ==
+    Use dbg.bat to quickly invoke the ddbg debugger on an executable. ('dbg main.exe')
+    Use gdmd.bat to invoke the GDMD perl script. ('gdmd main.d -ofmain.exe')
+    Use where.bat to find out the location of an exe/batch file. ('where dmd')
 
 == Optional Tools ==
     - HTOD: http://www.digitalmars.com/d/2.0/htod.html    

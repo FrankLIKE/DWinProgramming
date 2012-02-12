@@ -236,10 +236,7 @@ bool buildProject(string dir, out string errorMsg)
                                              ? "res"
                                              : "o");
     if (sources.length)
-    {
-        if (!silent) 
-            writeln("Building " ~ exeName);
-        
+    {        
         string cmd;
         
         final switch (compiler)
@@ -268,14 +265,22 @@ bool buildProject(string dir, out string errorMsg)
             }
         }
         
-        auto pc = execute(cmd);
+        auto res = system(cmd);
+        if (res != 0)
+        {
+            return false;
+        }
+        
+        // major note: buggy, has weird threading issues,
+        // it's better to wait for the new std.process module.
+        /+ auto pc = execute(cmd);
         auto output = pc.output;
         auto res = pc.status;
         if (res == -1 || res == 1)
         {
             errorMsg = output;
             return false;
-        }
+        } +/
     }
     
     return true;
@@ -319,8 +324,14 @@ void buildProjectDirs(string[] dirs, bool cleanOnly = false)
                 string errorMsg;
                 if (!buildProject(dir, /* out */ errorMsg))
                 {
+                    writefln("\nfail: %s\n%s", dir, errorMsg);
                     errorMsgs ~= errorMsg;
                     failedBuilds ~= rel2abs(dir) ~ r"\" ~ dir.baseName ~ ".exe";
+                }
+                else
+                {
+                    if (!silent) 
+                        writeln("ok: " ~ dir);                    
                 }
             }
         }
@@ -447,7 +458,7 @@ int main(string[] args)
             writefln("%s projects failed to build:", exc.failedMods.length);
             foreach (i, mod; exc.failedMods)
             {
-                writeln(mod, "\n", exc.errorMsgs[i]);
+                writeln(mod, exc.errorMsgs[i]);
             }
         }
             

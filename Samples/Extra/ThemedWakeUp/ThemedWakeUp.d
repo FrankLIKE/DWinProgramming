@@ -12,6 +12,8 @@ import std.range;
 import std.string;
 import std.utf;
 
+alias std.utf.count count;
+
 auto toUTF16z(S)(S s)
 {
     return toUTFz!(const(wchar)*)(s);

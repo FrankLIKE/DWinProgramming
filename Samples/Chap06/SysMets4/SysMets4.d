@@ -7,9 +7,16 @@ module SysMets4;
 
 import core.runtime;
 import std.algorithm : max, min;
+
+alias std.algorithm.max max;
+alias std.algorithm.min min;
+
 import std.string;
 import std.conv;
 import std.utf : count, toUTFz;
+
+alias std.utf.count count;
+alias std.utf.toUTFz toUTFz;
 
 auto toUTF16z(S)(S s)
 {

@@ -8,11 +8,18 @@ module SysMets;
 import core.runtime;
 import core.thread;
 import std.algorithm : min, max;
+
+alias std.algorithm.max max;
+alias std.algorithm.min min;
+
 import std.conv;
 import std.math;
 import std.range;
 import std.string;
 import std.utf : count, toUTFz;
+
+alias std.utf.count count;
+alias std.utf.toUTFz toUTFz;
 
 auto toUTF16z(S)(S s)
 {

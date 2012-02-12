@@ -9,11 +9,18 @@ import core.memory;
 import core.runtime;
 import core.thread;
 import std.algorithm : min, max;
+
+alias std.algorithm.min min;
+alias std.algorithm.max max;
+
 import std.conv;
 import std.math;
 import std.range;
 import std.string;
 import std.utf : count, toUTFz;
+
+alias std.utf.count count;
+alias std.utf.toUTFz toUTFz;
 
 auto toUTF16z(S)(S s)
 {
@@ -35,11 +42,11 @@ import DrumTime;
 OPENFILENAME ofn;
 
 // The API expects these to be arrays of pointers.
-TCHAR*[3] szFilter =
+const TCHAR*[3] szFilter =
 [
-    "Drum Files (*.DRM)\0"w.dup.ptr,
-    "*.drm\0"w.dup.ptr,
-    "\0"w.dup.ptr
+    "Drum Files (*.DRM)\0"w.ptr,
+    "*.drm\0"w.ptr,
+    "\0"w.ptr
 ];
 
 wchar* szDrumID;

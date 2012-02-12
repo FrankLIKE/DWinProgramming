@@ -535,7 +535,7 @@ LRESULT MessageProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     LookUpTheMessage(cast(PMSG)lParam, szMsg);
 
-    hdc     = GetDC(gh_hwndMain);
+    hdc   = GetDC(gh_hwndMain);
     szBuf = format("MSGFILTER  nCode: %s, msg: %s, %s times    ", szCode, szMsg, c++);
     
     TextOut(hdc, 2, 135, szBuf.toUTF16z, szBuf.count);

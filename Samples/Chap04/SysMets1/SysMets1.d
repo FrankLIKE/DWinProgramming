@@ -11,6 +11,9 @@ import std.string;
 import std.conv;
 import std.utf : count, toUTFz;
 
+alias std.utf.count count;
+//~ alias std.utf.toUTFz toUTFz;
+
 auto toUTF16z(S)(S s)
 {
     return toUTFz!(const(wchar)*)(s);

@@ -8,6 +8,10 @@ module Typer;
 import core.runtime;
 import core.thread;
 import std.algorithm : min, max;
+
+alias std.algorithm.max max;
+alias std.algorithm.min min;
+
 import std.conv;
 import std.math;
 import std.range;

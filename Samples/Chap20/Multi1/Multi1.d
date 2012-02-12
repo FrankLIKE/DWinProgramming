@@ -15,6 +15,9 @@ import std.range;
 import std.string;
 import std.utf : count, toUTFz;
 
+alias std.utf.count count;
+alias std.utf.toUTFz toUTFz;
+
 auto toUTF16z(S)(S s)
 {
     return toUTFz!(const(wchar)*)(s);
@@ -179,7 +182,7 @@ LRESULT WndProc2(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 if (++iNum < 0)
                     iNum = 0;
 
-                iSqrt = cast(int)sqrt(iNum);
+                iSqrt = cast(int)sqrt(cast(float)iNum);
 
                 for (i = 2; i <= iSqrt; i++)
                     if (iNum % i == 0)
